@@ -119,7 +119,9 @@
         $kvaShadowEnabled = $false
         $kvaShadowPcidEnabled = $false
 
-        $cpu = Get-WmiObject Win32_Processor
+        # Filter out all but one CPU in order to properly handle multi-CPU systems
+        # Credit: ChrisK8 (https://social.technet.microsoft.com/profile/chrisk8/)
+        $cpu = Get-WmiObject Win32_Processor | Select-Object -First 1
 
         if ($cpu.Manufacturer -eq "AuthenticAMD") {
             $kvaShadowRequired = $false
